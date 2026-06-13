@@ -63,6 +63,10 @@ def main():
         print("   Get a free key on: https://aistudio.google.com/apikey")
         sys.exit(1)
 
+    # Crea la cartella results se non esiste
+    results_dir = Path(__file__).parent / "results"
+    results_dir.mkdir(exist_ok=True)
+
     # Carica job description
     if args.jd:
         with open(args.jd, "r", encoding="utf-8") as f:
