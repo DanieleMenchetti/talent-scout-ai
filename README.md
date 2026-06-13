@@ -3,14 +3,19 @@
 ### A talent scount software for HR
 
 #### Setup
-1. Get your [Google AI API](https://aistudio.google.com/api-keys) and copy it into .env file
+1. Create your .env file
+<pre>
+cp .env_example .env 
+</pre>
 
-2. Create virtualenv:
+2. Get your [Google AI API](https://aistudio.google.com/api-keys) and copy it into .env file
+
+3. Create virtualenv:
 <pre>
 python -m venv venv
 </pre>
 
-3. Activate it:
+4. Activate it:
 <pre>
 #Linux
 source venv/bin/activate
@@ -19,7 +24,7 @@ source venv/bin/activate
 .\venv\Scripts\activate
 </pre>
 
-4. Install requirements.txt:
+5. Install requirements.txt:
 <pre>
 pip install -r requirements.txt
 </pre>
