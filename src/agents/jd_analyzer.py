@@ -7,7 +7,7 @@ from src.models.job_requirements import JobRequirements
 
 def jd_analyzer_node(state: HRGraphState) -> dict:
     print("\n" + "─" * 60)
-    print("  🔍 Node: JD Analyzer")
+    print("  Node: JD Analyzer")
     print("─" * 60)
 
     llm = ChatGoogleGenerativeAI(

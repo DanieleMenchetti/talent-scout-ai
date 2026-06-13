@@ -58,7 +58,7 @@ def main():
 
     # Verify Gemini API key
     if not os.environ.get("GOOGLE_API_KEY"):
-        print("\n❌ Error: GOOGLE_API_KEY not set.")
+        print("\nError: GOOGLE_API_KEY not set.")
         print("   Export with: export GOOGLE_API_KEY=your_key")
         print("   Get a free key on: https://aistudio.google.com/apikey")
         sys.exit(1)
@@ -71,10 +71,10 @@ def main():
     if args.jd:
         with open(args.jd, "r", encoding="utf-8") as f:
             job_description = f.read()
-        print(f"📄 Job description loaded from: {args.jd}")
+        print(f"Job description loaded from: {args.jd}")
     else:
         job_description = SAMPLE_JD
-        print("📄 I use the example job description")
+        print("Using the example job description")
 
     # Build the graph
     graph, _ = build_hr_graph()
@@ -83,12 +83,12 @@ def main():
     thread_id = str(uuid.uuid4())
     config = {"configurable": {"thread_id": thread_id}}
 
-    print(f"\n🧵 Thread ID: {thread_id}")
+    print(f"\nThread ID: {thread_id}")
     print("=" * 60)
 
     # ── First invocation: start the graph ────────────────────────────────────
     # The graph runs until human_approval, where interrupt() will pause it.
-    print("\n🚀 Starting pipeline...\n")
+    print("\nStarting pipeline...\n")
 
     result = graph.invoke(
         {
@@ -113,12 +113,12 @@ def main():
 
         if interrupt_message:
             print("\n" + "═" * 60)
-            print("  ⏸️  PAUSED GRAPH — Input required")
+            print("  PAUSED GRAPH — Input required")
             print("═" * 60)
             print(interrupt_message)
 
         user_input = input("\n  Your choice: ").strip()
-        print("\n▶️  Pipeline recovery...\n")
+        print("\nResuming pipeline...\n")
 
         final_result = graph.invoke(
             Command(resume=user_input),
@@ -130,7 +130,7 @@ def main():
 
     # ── Final summary ─────────────────────────────────────────────────────────
     print("\n" + "═" * 60)
-    print("  📊 EXECUTION SUMMARY")
+    print("  EXECUTION SUMMARY")
     print("═" * 60)
 
     report_path = final_result.get("report_path")
@@ -138,14 +138,14 @@ def main():
     human_approved = final_result.get("human_approved")
 
     if human_approved is False:
-        print("  ❌ Pipeline closed: candidates not approved.")
+        print("  Pipeline closed: candidates not approved.")
     elif report_path:
-        print(f"  ✅ Completed successfully!")
-        print(f"  📄 Report: {report_path}")
+        print("  Completed successfully.")
+        print(f"  Report: {report_path}")
         if scored:
-            print(f"  🏆 Top candidate: {scored[0].profile.name} ({scored[0].overall_score:.1f}/10)")
+            print(f"  Top candidate: {scored[0].profile.name} ({scored[0].overall_score:.1f}/10)")
     else:
-        print("  ⚠️  Pipeline completed but report not found.")
+        print("  Pipeline completed but report not found.")
 
     print(f"\n  Thread ID (for debug): {thread_id}")
     print()

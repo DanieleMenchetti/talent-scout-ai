@@ -20,7 +20,7 @@ class CandidateScore(BaseModel):
 
 def profile_scorer_node(state: HRGraphState) -> dict:
     print("\n" + "─" * 60)
-    print("  📊 Node: Profile Scorer")
+    print("  Node: Profile Scorer")
     print("─" * 60)
 
     candidates: list[CandidateProfile] = state["approved_candidates"]
@@ -78,7 +78,7 @@ def profile_scorer_node(state: HRGraphState) -> dict:
                 recommendation=score.recommendation,
             ))
         except Exception as e:
-            print(f"     ⚠️  Errore scoring {candidate.name}: {e}")
+            print(f"     Scoring error for {candidate.name}: {e}")
             scored.append(ScoredCandidate(
                 profile=candidate,
                 overall_score=0.0,
@@ -86,8 +86,8 @@ def profile_scorer_node(state: HRGraphState) -> dict:
                 experience_score=0.0,
                 domain_fit_score=0.0,
                 strengths=[],
-                gaps=["Errore durante la valutazione"],
-                recommendation="Valutazione fallita.",
+                gaps=["Scoring failed"],
+                recommendation="Evaluation failed.",
             ))
 
     # Sort by score and assign rank

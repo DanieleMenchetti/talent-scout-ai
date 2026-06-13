@@ -17,7 +17,7 @@ class CandidateListOutput(BaseModel):
 
 def candidate_searcher_node(state: HRGraphState) -> dict:
     print("\n" + "─" * 60)
-    print("  🔎 Node: Candidate Searcher (ReAct Agent)")
+    print("  Node: Candidate Searcher (ReAct Agent)")
     print("─" * 60)
 
     requirements: JobRequirements = state["requirements"]

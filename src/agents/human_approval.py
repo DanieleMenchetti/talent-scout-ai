@@ -7,7 +7,7 @@ from src.models.candidate_profile import CandidateProfile
 
 def human_approval_node(state: HRGraphState) -> dict:
     print("\n" + "═" * 60)
-    print("  👤 Node: Human Approval Gate")
+    print("  Node: Human Approval Gate")
     print("═" * 60)
 
     candidates: list[CandidateProfile] = state["candidates"]

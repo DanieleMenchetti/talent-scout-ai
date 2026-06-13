@@ -12,7 +12,7 @@ from src.tools.definitions import REPORTER_TOOLS
 
 def report_generator_node(state: HRGraphState) -> dict:
     print("\n" + "─" * 60)
-    print("  📝 Node: Report Generator")
+    print("  Node: Report Generator")
     print("─" * 60)
 
     scored: list[ScoredCandidate] = state["scored_candidates"]
@@ -74,7 +74,7 @@ def report_generator_node(state: HRGraphState) -> dict:
     4. ## Detailed Profiles — one section per candidate with score breakdown, strengths, gaps, and recommendation
     5. ## Next Steps — suggested interview process and key questions
 
-    Style: Executive, direct, every sentence should add value. Use tables for comparisons. Use ✅ ❌ ⚠️ sparingly.
+    Style: Executive, direct, every sentence should add value. Use tables for comparisons. Avoid decorative symbols.
 
     After writing the report, use the save_report tool to save it as '{filename}'.
     """
