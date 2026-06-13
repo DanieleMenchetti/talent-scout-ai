@@ -7,7 +7,7 @@ from src.models.candidate_profile import CandidateProfile, ScoredCandidate
 from src.models.job_requirements import JobRequirements
 
 
-# Schema Pydantic usato con with_structured_output per lo scoring
+# Pydantic schema used with with_structured_output for scoring
 class CandidateScore(BaseModel):
     overall_score: float = Field(ge=0.0, le=10.0)
     skills_match_score: float = Field(ge=0.0, le=10.0)
@@ -90,7 +90,7 @@ def profile_scorer_node(state: HRGraphState) -> dict:
                 recommendation="Valutazione fallita.",
             ))
 
-    # Ordina per score e assegna rank
+    # Sort by score and assign rank
     scored.sort(key=lambda x: x.overall_score, reverse=True)
     for rank, sc in enumerate(scored, 1):
         sc.rank = rank

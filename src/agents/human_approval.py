@@ -19,7 +19,7 @@ def human_approval_node(state: HRGraphState) -> dict:
             "messages": [AIMessage(content="No candidate to approve.")],
         }
 
-    # Costruisce il messaggio di riepilogo per l'utente
+    # Build the summary message for the user
     summary_lines = ["Candidates found — approve before proceeding with scoring:\n"]
     for i, c in enumerate(candidates, 1):
         skills_preview = ", ".join(c.skills[:3]) if c.skills else "N/D"

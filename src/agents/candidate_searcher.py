@@ -25,7 +25,7 @@ def candidate_searcher_node(state: HRGraphState) -> dict:
     llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0.2)
     structured_llm = llm.with_structured_output(CandidateListOutput)
 
-    # L'agente ReAct usa ancora il LLM grezzo per il loop Reason→Act→Observe
+    # The ReAct agent still uses the raw LLM for the Reason→Act→Observe loop
     agent = create_react_agent(llm, tools=SEARCHER_TOOLS)
 
     skills_str = ", ".join(requirements.required_skills[:5])
@@ -44,12 +44,12 @@ def candidate_searcher_node(state: HRGraphState) -> dict:
     Collect for each: name, role, company, skills, experience, URL.
     """
 
-    # Step 1: il ReAct agent naviga il web liberamente
+    # Step 1: the ReAct agent browses the web freely
     search_result = agent.invoke({"messages": [HumanMessage(content=task)]})
     raw_findings = search_result["messages"][-1].content
 
-    # Step 2: with_structured_output converte il testo grezzo → Pydantic
-    # Niente più regex, json.loads, _extract_text_content o try/except di parsing
+    # Step 2: with_structured_output converts raw text → Pydantic
+    # No more regex, json.loads, _extract_text_content or parsing try/except
     parsed: CandidateListOutput = structured_llm.invoke(
         f"Structure these search results into candidates:\n\n{raw_findings}"
     )

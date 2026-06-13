@@ -26,10 +26,10 @@ def report_generator_node(state: HRGraphState) -> dict:
         temperature=0.3,
     )
 
-    # Agente con tool save_report per scrivere il file
+    # Agent with save_report tool to write the file
     agent = create_react_agent(llm, tools=REPORTER_TOOLS)
 
-    # Serializza i dati per il prompt
+    # Serialize data for the prompt
     candidates_data = [
         {
             "rank": sc.rank,
@@ -83,7 +83,7 @@ def report_generator_node(state: HRGraphState) -> dict:
     result = agent.invoke({"messages": [HumanMessage(content=task)]})
     print("report post-invoke")
 
-    # Cerca il path salvato nei messaggi tool result
+    # Look for the saved path in tool result messages
     report_path = filename  # fallback
     report_content = ""
 

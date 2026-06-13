@@ -29,6 +29,6 @@ def save_report(filename: str, content: str) -> str:
     return json.dumps({"status": "saved", "path": path})
 
 
-# Tool lists per ogni agente (ogni agente riceve solo i tool di cui ha bisogno)
+# Tool lists for each agent (each agent receives only the tools it needs)
 SEARCHER_TOOLS = [web_search]
 REPORTER_TOOLS = [save_report]

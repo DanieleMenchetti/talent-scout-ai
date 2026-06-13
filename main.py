@@ -56,18 +56,18 @@ def main():
     parser.add_argument("--jd", type=str, default=None, help="Path to the job description .txt file")
     args = parser.parse_args()
 
-    # Verifica API key Gemini
+    # Verify Gemini API key
     if not os.environ.get("GOOGLE_API_KEY"):
         print("\n❌ Error: GOOGLE_API_KEY not set.")
         print("   Export with: export GOOGLE_API_KEY=your_key")
         print("   Get a free key on: https://aistudio.google.com/apikey")
         sys.exit(1)
 
-    # Crea la cartella results se non esiste
+    # Create the results folder if it doesn't exist
     results_dir = Path(__file__).parent / "results"
     results_dir.mkdir(exist_ok=True)
 
-    # Carica job description
+    # Load job description
     if args.jd:
         with open(args.jd, "r", encoding="utf-8") as f:
             job_description = f.read()
@@ -76,18 +76,18 @@ def main():
         job_description = SAMPLE_JD
         print("📄 I use the example job description")
 
-    # Costruisci il grafo
+    # Build the graph
     graph, _ = build_hr_graph()
 
-    # Ogni run del grafo ha un thread_id unico — necessario per il checkpointer
+    # Each graph run has a unique thread_id — required by the checkpointer
     thread_id = str(uuid.uuid4())
     config = {"configurable": {"thread_id": thread_id}}
 
     print(f"\n🧵 Thread ID: {thread_id}")
     print("=" * 60)
 
-    # ── Prima invocazione: avvia il grafo ─────────────────────────────────────
-    # Il grafo girerà fino a human_approval, dove interrupt() lo sospenderà.
+    # ── First invocation: start the graph ────────────────────────────────────
+    # The graph runs until human_approval, where interrupt() will pause it.
     print("\n🚀 Starting pipeline...\n")
 
     result = graph.invoke(
@@ -98,12 +98,12 @@ def main():
         config=config,
     )
 
-    # ── Controlla se il grafo è sospeso su interrupt ──────────────────────────
+    # ── Check if the graph is paused on interrupt ────────────────────────────
     graph_state = graph.get_state(config)
 
     if graph_state.next:
-        # Il grafo è in attesa di input umano
-        # Recupera il messaggio di interrupt dai task pendenti
+        # The graph is waiting for human input
+        # Retrieve the interrupt message from pending tasks
         pending_tasks = graph_state.tasks
         interrupt_message = ""
         for task in pending_tasks:
@@ -125,10 +125,10 @@ def main():
             config=config,
         )
     else:
-        # Il grafo è terminato (candidati rifiutati prima dell'interrupt, o altro)
+        # The graph has terminated (candidates rejected before interrupt, or other reason)
         final_result = result
 
-    # ── Riepilogo finale ──────────────────────────────────────────────────────
+    # ── Final summary ─────────────────────────────────────────────────────────
     print("\n" + "═" * 60)
     print("  📊 EXECUTION SUMMARY")
     print("═" * 60)

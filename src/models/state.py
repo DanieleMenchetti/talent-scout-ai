@@ -7,27 +7,27 @@ from src.models.candidate_profile import CandidateProfile, ScoredCandidate
 
 class HRGraphState(TypedDict):
 
-    # Input iniziale
+    # Initial input
     job_description: str
 
-    # Output del nodo jd_analyzer
+    # Output of the jd_analyzer node
     requirements: Optional[JobRequirements]
 
-    # Output del nodo candidate_searcher
+    # Output of the candidate_searcher node
     candidates: Optional[list[CandidateProfile]]
 
-    # Output del nodo human_approval (gate)
+    # Output of the human_approval node (gate)
     approved_candidates: Optional[list[CandidateProfile]]
-    human_approved: Optional[bool]         # True = procedi, False = stop
+    human_approved: Optional[bool]         # True = proceed, False = stop
 
-    # Output del nodo profile_scorer
+    # Output of the profile_scorer node
     scored_candidates: Optional[list[ScoredCandidate]]
 
-    # Output del nodo report_generator
+    # Output of the report_generator node
     report_path: Optional[str]
     report_content: Optional[str]
 
-    # Messaggi di log/debug accumulati lungo il grafo
+    # Log/debug messages accumulated along the graph
     # Annotated[..., add_messages] = append instead of overwrite
     messages: Annotated[list[BaseMessage], add_messages]
 
