@@ -79,9 +79,7 @@ def report_generator_node(state: HRGraphState) -> dict:
     After writing the report, use the save_report tool to save it as '{filename}'.
     """
 
-    print("report pre-invoke")
     result = agent.invoke({"messages": [HumanMessage(content=task)]})
-    print("report post-invoke")
 
     # Look for the saved path in tool result messages
     report_path = filename  # fallback
