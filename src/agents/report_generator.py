@@ -51,7 +51,7 @@ def report_generator_node(state: HRGraphState) -> dict:
         for sc in scored
     ]
 
-    task = f"""You're a senior talent acquisition consultant. Write a professional report in Markdown.
+    task = f"""You're a senior talent acquisition consultant. Write a concise professional report in Markdown.
 
     FILENAME TO USE: {filename}
 
@@ -67,14 +67,12 @@ def report_generator_node(state: HRGraphState) -> dict:
     CANDIDATES EVALUATED (in order of rank):
     {json.dumps(candidates_data, indent=2, ensure_ascii=False)}
 
-    Report Structure:
-    1. # Executive Summary — search overview and key recommendation
-    2. ## Role Requirements — key skills and required seniority
-    3. ## Candidate Rankings — table with name, total score, and strengths
-    4. ## Detailed Profiles — one section per candidate with score breakdown, strengths, gaps, and recommendation
-    5. ## Next Steps — suggested interview process and key questions
+    Report Structure (keep it short — aim for one page):
+    1. ## Summary — 2-3 sentences: role, number of candidates evaluated, top recommendation
+    2. ## Rankings — one Markdown table: rank, name, scores, top strength, recommendation
+    3. ## Next Steps — 3-5 bullet points with concrete interview actions for the top candidate
 
-    Style: Executive, direct, every sentence should add value. Use tables for comparisons. Avoid decorative symbols.
+    Style: Concise and direct. No padding, no repeated information, no lengthy prose. Every sentence must add value.
 
     After writing the report, use the save_report tool to save it as '{filename}'.
     """
