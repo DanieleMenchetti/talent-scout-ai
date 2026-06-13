@@ -55,8 +55,6 @@ def candidate_searcher_node(state: HRGraphState) -> dict:
     # No more regex, json.loads, _extract_text_content or parsing try/except
     parsed: CandidateListOutput = structured_llm.invoke(
         f"Structure these search results into candidates. "
-        f"Only include entries where the name field contains a real full name (first and last name). "
-        f"Discard any entry with a missing, partial, or placeholder name.\n\n{raw_findings}"
     )
 
     _INVALID_NAMES = {"unknown", "n/a", "anonymous", "user", "profile", "candidate", ""}
