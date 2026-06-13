@@ -41,7 +41,10 @@ def candidate_searcher_node(state: HRGraphState) -> dict:
     2. Search GitHub: "{requirements.required_skills[0] if requirements.required_skills else ''} developer github"
     3. Test variations to find different candidates
 
-    Collect for each: name, role, company, skills, experience, URL.
+    IMPORTANT: Only include candidates with a clearly identified full name (first and last name).
+    Skip any anonymous profiles, generic handles, or profiles where the real name is not visible.
+
+    Collect for each: full name, role, company, skills, experience, URL.
     """
 
     # Step 1: the ReAct agent browses the web freely
@@ -51,10 +54,16 @@ def candidate_searcher_node(state: HRGraphState) -> dict:
     # Step 2: with_structured_output converts raw text → Pydantic
     # No more regex, json.loads, _extract_text_content or parsing try/except
     parsed: CandidateListOutput = structured_llm.invoke(
-        f"Structure these search results into candidates:\n\n{raw_findings}"
+        f"Structure these search results into candidates. "
+        f"Only include entries where the name field contains a real full name (first and last name). "
+        f"Discard any entry with a missing, partial, or placeholder name.\n\n{raw_findings}"
     )
 
-    candidates = parsed.candidates
+    _INVALID_NAMES = {"unknown", "n/a", "anonymous", "user", "profile", "candidate", ""}
+    candidates = [
+        c for c in parsed.candidates
+        if len(c.name.split()) >= 2 and c.name.strip().lower() not in _INVALID_NAMES
+    ]
 
     print(f"  → Found {len(candidates)} candidates")
     for c in candidates:
